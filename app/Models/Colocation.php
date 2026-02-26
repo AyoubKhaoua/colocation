@@ -10,9 +10,11 @@ class Colocation extends Model
         'name',
         'status'
     ];
-    public function colocationusers()
+    public function members()
     {
-        return $this->hasMany(ColocationUser::class);
+        return $this->belongsToMany(User::class, 'colocation_users')
+            ->withPivot(['role', 'joined_at', 'left_at'])
+            ->withTimestamps();
     }
     public function categories()
     {

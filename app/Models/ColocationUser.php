@@ -13,12 +13,4 @@ class ColocationUser extends Model
         'left_at',
         'joined_at'
     ];
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function colocation()
-    {
-        return $this->belongsTo(Colocation::class);
-    }
 }

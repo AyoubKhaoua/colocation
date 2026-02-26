@@ -23,10 +23,13 @@ class User extends Authenticatable
         'role',
         'password',
     ];
-    public function colocationusers()
+    public function colocations()
     {
-        return $this->hasMany(ColocationUser::class);
+        return $this->belongsToMany(Colocation::class, 'colocation_users')
+            ->withPivot(['role', 'joined_at', 'left_at'])
+            ->withTimestamps();
     }
+    public function aa() {}
 
     /**
      * The attributes that should be hidden for serialization.

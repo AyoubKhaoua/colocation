@@ -16,4 +16,5 @@ class Invitation extends Model
     {
         return $this->belongsTo(Colocation::class);
     }
+    public function aa() {}
 }

@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use App\Models\Colocation;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 //create colocation
-Route::get('show', [Colocation::class, 'create'])->name('show.form');
-Route::post('/store', [Colocation::class, 'store'])->name('store.from');
+Route::get('show', [ColocationController::class, 'create'])->name('show.form');
+Route::post('/store', [ColocationController::class, 'store'])->name('store.colocation');
+//colocation
+Route::get('/categories', [CategoryController::class, 'index'])->name('index.categorie');
+Route::get('/create/{colocation}', [CategoryController::class, 'create'])->name('create.categorie');
+Route::post('/store/{colocation}', [CategoryController::class, 'store'])->name('store.categorie');
+Route::post('/categories/{category}', [CategoryController::class, 'destroy'])->name('destroy.categorie');
 require __DIR__ . '/auth.php';

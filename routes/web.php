@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColocationController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -33,4 +34,11 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('index.cat
 Route::get('/create/{colocation}', [CategoryController::class, 'create'])->name('create.categorie');
 Route::post('/store/{colocation}', [CategoryController::class, 'store'])->name('store.categorie');
 Route::post('/categories/{category}', [CategoryController::class, 'destroy'])->name('destroy.categorie');
+
+// invitations
+Route::middleware('auth')->group(function () {
+    Route::get('/invitations', [InvitationController::class, 'index'])->name('invitations.index');
+    Route::get('/invitations/{colocation}', [InvitationController::class, 'dashboard'])->name('invitations.dashboard');
+    Route::post('/invitations/{colocation}', [InvitationController::class, 'store'])->name('invitations.store');
+});
 require __DIR__ . '/auth.php';

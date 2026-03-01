@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColocationController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -21,6 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin.dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/user.dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::patch('/users/{user}/block', [AdminController::class, 'toggleBlock'])->name('users.block');
+    Route::get('/colocations/{colocation}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::post('/colocations/{colocation}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+
+    Route::get('/colocations/{colocation}/balances', [BalanceController::class, 'show'])->name('balances.show');
 });
 
 Route::middleware('auth')->group(function () {

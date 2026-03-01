@@ -30,6 +30,10 @@ class User extends Authenticatable
             ->withPivot(['role', 'joined_at', 'left_at'])
             ->withTimestamps();
     }
+    public function expensesPaid()
+    {
+        return $this->hasMany(Expense::class, 'payer_colocationuser_id');
+    }
 
 
     /**

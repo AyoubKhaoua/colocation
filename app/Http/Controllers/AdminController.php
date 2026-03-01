@@ -17,6 +17,7 @@ class AdminController extends Controller
         }
 
         $usersCount = User::count();
+
         $colocationsCount = Colocation::count();
         $expensesCount = Expense::count();
 
@@ -30,7 +31,19 @@ class AdminController extends Controller
     {
 
 
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
 
+        // prevent admins from blocking themselves
+        if (Auth::id() === $user->id) {
+            return back()->with('error', "You can't change your own status.");
+        }
+
+        // disallow blocking another admin for safety
+        if ($user->role === 'admin') {
+            return back()->with('error', 'Cannot block another admin.');
+        }
 
         $user->update(['is_blocked' => !$user->is_blocked]);
 

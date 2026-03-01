@@ -26,9 +26,21 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        // after credentials are valid, ensure account isn't blocked
         $user = Auth::user();
-        if ($user->role == 'admin') {
+        if ($user->is_blocked) {
+            // log out and invalidate session
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Your account is blocked.',
+            ]);
+        }
+
+        $request->session()->regenerate();
+        if ($user->role === 'admin') {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
         return redirect()->intended(route('user.dashboard', absolute: false));

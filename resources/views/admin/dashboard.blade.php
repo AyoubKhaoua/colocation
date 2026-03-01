@@ -1,41 +1,38 @@
 <x-app-layout>
     <div class="bg-slate-50 min-h-screen">
-        <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="max-w-7xl mx-auto px-6 py-10 space-y-10">
 
-            <h1 class="text-3xl font-extrabold text-slate-900 mb-8">
-                Admin Dashboard
-            </h1>
+            <!-- header + stats -->
+            <div class="space-y-4">
+                <h1 class="text-3xl font-extrabold text-slate-900">Admin Dashboard</h1>
+                <p class="text-sm text-slate-500">Overview of users, colocations and expenses.</p>
 
-            <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
+                        <p class="text-sm text-slate-500">Total Users</p>
+                        <p class="text-3xl font-bold text-indigo-600 mt-2">
+                            {{ $usersCount }}
+                        </p>
+                    </div>
 
-                <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
-                    <p class="text-sm text-slate-500">Total Users</p>
-                    <p class="text-3xl font-bold text-indigo-600 mt-2">
-                        {{ $usersCount }}
-                    </p>
+                    <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
+                        <p class="text-sm text-slate-500">Total Colocations</p>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">
+                            {{ $colocationsCount }}
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
+                        <p class="text-sm text-slate-500">Total Expenses</p>
+                        <p class="text-3xl font-bold text-rose-600 mt-2">
+                            {{ $expensesCount }}
+                        </p>
+                    </div>
                 </div>
-
-                <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
-                    <p class="text-sm text-slate-500">Total Colocations</p>
-                    <p class="text-3xl font-bold text-emerald-600 mt-2">
-                        {{ $colocationsCount }}
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-3xl p-6 shadow-sm ring-1 ring-slate-200">
-                    <p class="text-sm text-slate-500">Total Expenses</p>
-                    <p class="text-3xl font-bold text-rose-600 mt-2">
-                        {{ $expensesCount }}
-                    </p>
-                </div>
-
             </div>
 
-        </div>
-    </div>
-    <x-app-layout>
-        <div class="bg-slate-50 min-h-screen">
-            <div class="max-w-7xl mx-auto px-6 py-10">
+            <!-- user management section -->
+            <div>
 
                 <div class="flex items-center justify-between mb-6">
                     <div>
@@ -102,42 +99,26 @@
                                     </td>
 
                                     <td class="p-4 text-right">
-                                        <div class="flex justify-end gap-2">
-
-                                            <form method="POST" action="{{ route('admin.users.role', $user) }}">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="role"
-                                                    value="{{ $user->role === 'admin' ? 'user' : 'admin' }}">
-                                                <button
-                                                    class="rounded-xl px-3 py-2 text-xs font-semibold ring-1 ring-slate-200 hover:bg-slate-50">
-                                                    {{ $user->role === 'admin' ? 'Make User' : 'Make Admin' }}
-                                                </button>
-                                            </form>
-
-                                            <form method="POST" action="{{ route('admin.users.block', $user) }}">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button
-                                                    class="rounded-xl px-3 py-2 text-xs font-semibold text-white
-                                                {{ $user->is_blocked ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-rose-600 hover:bg-rose-500' }}">
-                                                    {{ $user->is_blocked ? 'Unblock' : 'Block' }}
-                                                </button>
-                                            </form>
-
-                                        </div>
+                                        <form action="{{ route('users.block', $user) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="text-sm font-medium {{ $user->is_blocked ? 'text-emerald-600' : 'text-rose-600' }} hover:underline">
+                                                {{ $user->is_blocked ? 'Unblock' : 'Block' }}
+                                            </button>
+                                        </form>
                                     </td>
+
+
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
 
-                <div class="mt-6">
-                    {{ $users->links() }}
-                </div>
+
 
             </div>
         </div>
-    </x-app-layout>
+    </div>
 </x-app-layout>

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreExpenseRequest;
 use App\Models\Colocation;
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -13,7 +14,7 @@ class ExpenseController extends Controller
     public function index(Colocation $colocation)
     {
         // security: user must be member
-        abort_unless($colocation->members()->where('users.id', auth()->id())->exists(), 403);
+        abort_unless($colocation->members()->where('users.id', Auth::id())->exists(), 403);
 
         $expenses = $colocation->expenses()
             ->with(['payer', 'category'])
@@ -28,7 +29,7 @@ class ExpenseController extends Controller
 
     public function store(StoreExpenseRequest $req, Colocation $colocation)
     {
-        abort_unless($colocation->members()->where('users.id', auth()->id())->exists(), 403);
+        abort_unless($colocation->members()->where('users.id', Auth::id())->exists(), 403);
 
         Expense::create([
             'colocation_id' => $colocation->id,

@@ -29,9 +29,8 @@ class ColocationInvitationMail extends Mailable
             ->view('emails.colocationinvitation')
             ->with([
                 'invitation' => $this->invitation,
-                'acceptUrl'  => route('invitations.accept', $this->invitation->token),
-
-                'declineUrl' => route('invitations.decline', $this->invitation->token),
+                // Link to the show page where users can accept/decline with buttons
+                'invitationUrl'  => route('invitations.show', $this->invitation->token),
             ]);
     }
 

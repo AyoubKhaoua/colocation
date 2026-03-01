@@ -16,15 +16,10 @@
             You have been invited to join <b>{{ $invitation->colocation->name ?? 'a colocation' }}</b>.
         </p>
 
-        <div style="margin:20px 0; display:flex; gap:12px;">
-            <a href="{{ $acceptUrl }}"
-                style="display:inline-block; padding:12px 18px; background:#4f46e5; color:#fff; text-decoration:none; border-radius:12px; font-weight:700;">
-                Accept
-            </a>
-
-            <a href="{{ $declineUrl }}"
-                style="display:inline-block; padding:12px 18px; background:#ef4444; color:#fff; text-decoration:none; border-radius:12px; font-weight:700;">
-                Refuse
+        <div style="margin:20px 0;">
+            <a href="{{ $invitationUrl }}"
+                style="display:inline-block; padding:12px 24px; background:#4f46e5; color:#fff; text-decoration:none; border-radius:12px; font-weight:700;">
+                Review Invitation
             </a>
         </div>
 

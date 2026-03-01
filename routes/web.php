@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\InvitationController;
@@ -19,6 +20,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/admin.dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/user.dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::patch('/users/{user}/block', [AdminController::class, 'toggleBlock'])->name('users.block');
 });
 
 Route::middleware('auth')->group(function () {

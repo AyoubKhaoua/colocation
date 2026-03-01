@@ -26,4 +26,14 @@ class AdminController extends Controller
             'expensesCount'
         ));
     }
+    public function toggleBlock(User $user)
+    {
+
+
+
+
+        $user->update(['is_blocked' => !$user->is_blocked]);
+
+        return back()->with('success', 'User status updated');
+    }
 }

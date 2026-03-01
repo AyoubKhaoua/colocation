@@ -1,93 +1,119 @@
 <x-app-layout>
-    @if (session('success'))
-        <div class="mb-6 rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-400/20 p-4 w-1/2 m-auto">
-            <div class="flex items-center justify-between">
-                <span class="text-sm font-semibold text-emerald-400 m-auto">
-                    {{ session('success') }}
-                </span>
-            </div>
-        </div>
-    @endif
 
-    <div x-data="{ open: @json($errors->any()) }" x-init="if ($el.querySelector('.modal-errors')) open = true" class="px-8 py-10">
+    <div class="bg-slate-50 min-h-screen">
+        <div class="mx-auto max-w-7xl px-6 py-10">
 
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <h1 class="text-2xl font-semibold text-slate-800">
-                    Catégories
-                </h1>
-                <p class="text-slate-500 text-sm mt-1">
-                    Colocation : {{ $colocation->name }}
-                </p>
-            </div>
-
-            <button @click="open = true"
-                class="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 transition shadow-sm">
-                + Ajouter catégorie
-            </button>
-        </div>
-
-        <!-- include modal form -->
-        @include('categories.form')
+            {{-- Flash Message --}}
+            @if (session('success'))
+                <div class="mb-6 rounded-2xl bg-emerald-50 ring-1 ring-emerald-200 px-5 py-4 text-emerald-700 shadow-sm">
+                    <span class="font-semibold">✔</span> {{ session('success') }}
+                </div>
+            @endif
 
 
-        @if ($categories->count() > 0)
+            <div x-data="{ open: @json($errors->any()) }">
 
-            <div class="grid md:grid-cols-3 gap-6">
+                {{-- Header --}}
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            Catégories
+                        </h1>
+                        <p class="mt-2 text-sm text-slate-500">
+                            Colocation :
+                            <span class="font-semibold text-slate-800">
+                                {{ $colocation->name }}
+                            </span>
+                        </p>
+                    </div>
 
-                @foreach ($categories as $category)
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition">
 
-                        <!-- Icon -->
-                        <div class="flex items-center justify-between mb-5">
+                </div>
+
+                {{-- Modal --}}
+                @include('categories.form')
+
+                {{-- Grid --}}
+                @if ($categories->count() > 0)
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        @foreach ($categories as $category)
                             <div
-                                class="h-12 w-12 flex items-center justify-center 
-                            rounded-xl bg-indigo-100 text-indigo-600 font-bold text-lg">
-                                {{ strtoupper(substr($category->name, 0, 1)) }}
+                                class="group rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 hover:shadow-md hover:-translate-y-1 transition">
+
+                                {{-- Top Section --}}
+                                <div class="flex items-start justify-between">
+
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="h-14 w-14 rounded-2xl bg-indigo-100 text-indigo-600 
+                                        flex items-center justify-center text-xl font-bold ring-1 ring-indigo-200">
+                                            {{ strtoupper(substr($category->name, 0, 1)) }}
+                                        </div>
+
+                                        <div>
+                                            <h3 class="text-lg font-bold text-slate-900">
+                                                {{ $category->name }}
+                                            </h3>
+                                            <p class="text-xs text-slate-500 mt-1">
+                                                Created {{ $category->created_at->diffForHumans() }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                {{-- Divider --}}
+                                <div class="my-5 h-px bg-slate-100"></div>
+
+                                {{-- Actions --}}
+                                <div class="flex items-center justify-between">
+
+                                    <button
+                                        class="text-sm font-semibold text-indigo-600 hover:text-indigo-500 transition">
+                                        Modifier
+                                    </button>
+
+                                    <form action="{{ route('destroy.categorie', $category) }}" method="POST"
+                                        onsubmit="return confirm('Delete this category?');">
+                                        @csrf
+
+
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-1 rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-600 ring-1 ring-rose-200 hover:bg-rose-100 transition">
+                                            🗑 Supprimer
+                                        </button>
+                                    </form>
+
+                                </div>
+
                             </div>
-
-                            {{--  <span class="text-xs text-slate-400">
-                                {{ $category->expenses->count() ?? 0 }} dépenses
-                            </span> --}}
-                        </div>
-
-                        <!-- Name -->
-                        <h3 class="text-lg font-semibold text-slate-800">
-                            {{ $category->name }}
-                        </h3>
-
-                        <!-- Actions -->
-                        <div class="mt-6 flex items-center gap-4 text-sm">
-                            <button class="text-indigo-600 hover:text-indigo-500 font-medium">
-                                Modifier
-                            </button>
-
-                            <form action="{{ route('destroy.categorie', $category) }}" method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this category?');"
-                                class="inline">
-                                @csrf
-
-                                <button type="submit" class="text-red-500 hover:text-red-400 font-medium">
-                                    Supprimer
-                                </button>
-                            </form>
-                        </div>
+                        @endforeach
 
                     </div>
-                @endforeach
+                @else
+                    {{-- Empty State --}}
+                    <div class="rounded-3xl bg-white p-14 text-center shadow-sm ring-1 ring-slate-200">
+                        <div class="text-4xl mb-4">📂</div>
+                        <h3 class="text-lg font-bold text-slate-900">
+                            Aucune catégorie pour le moment
+                        </h3>
+                        <p class="text-sm text-slate-500 mt-2">
+                            Commencez par créer votre première catégorie.
+                        </p>
+
+                        <button @click="open = true"
+                            class="mt-6 inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500 transition">
+                            + Ajouter catégorie
+                        </button>
+                    </div>
+
+                @endif
 
             </div>
-        @else
-            <!-- Empty State -->
-            <div class="bg-white rounded-2xl p-10 shadow-sm border border-slate-100 text-center">
-                <p class="text-slate-500">
-                    Aucune catégorie disponible pour le moment.
-                </p>
-            </div>
 
-        @endif
-
+        </div>
     </div>
 
 </x-app-layout>

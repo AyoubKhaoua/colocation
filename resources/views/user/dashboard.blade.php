@@ -1,5 +1,22 @@
 <x-app-layout>
-
+    @if (session('success'))
+        <div class="mb-6 rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-400/20 p-4 w-1/2 m-auto">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-emerald-400 m-auto">
+                    {{ session('success') }}
+                </span>
+            </div>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="mb-6 rounded-2xl bg-red-500/10 ring-1 ring-red-400/20 p-4 w-1/2 m-auto">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-red-400 m-auto">
+                    {{ session('error') }}
+                </span>
+            </div>
+        </div>
+    @endif
 
     <div class="min-h-[calc(100vh-7rem)] bg-slate-50 dark:bg-slate-950">
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -28,48 +45,25 @@
                             Mes colocations
                         </div>
 
-                        {{-- Colocations list --}}
+                        {{-- Colocations list (dynamic) --}}
                         <div class="mt-3 space-y-2">
-                            {{-- Active item example --}}
-                            <a href="#"
-                                class="group flex items-center gap-3 rounded-2xl px-3 py-2.5 bg-emerald-500/10 ring-1 ring-emerald-400/20">
-                                <span
-                                    class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
-                                    🏠
-                                </span>
-                                <div class="min-w-0">
-                                    <div class="truncate text-sm font-semibold text-slate-900 dark:text-white">test
+                            @foreach ($colocations as $coloc)
+                                <a href="#"
+                                    class="group flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5">
+                                    <span
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
+                                        🏠
+                                    </span>
+                                    <div class="min-w-0">
+                                        <div class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">
+                                            {{ $coloc->name }}
+                                        </div>
+                                        <div class="text-xs text-slate-500 dark:text-slate-400">
+                                            {{ $coloc->members()->count() ?? 0 }} membres
+                                        </div>
                                     </div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">Active</div>
-                                </div>
-                            </a>
-
-                            {{-- Other items --}}
-                            <a href="#"
-                                class="group flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5">
-                                <span
-                                    class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10">
-                                    🏠
-                                </span>
-                                <div class="min-w-0">
-                                    <div class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">Coloc A
-                                    </div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">3 membres</div>
-                                </div>
-                            </a>
-
-                            <a href="#"
-                                class="group flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5">
-                                <span
-                                    class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10">
-                                    🏠
-                                </span>
-                                <div class="min-w-0">
-                                    <div class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">Coloc B
-                                    </div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">2 membres</div>
-                                </div>
-                            </a>
+                                </a>
+                            @endforeach
                         </div>
 
                         <a href="show">
@@ -196,7 +190,7 @@
                                     </div>
                                 </a>
 
-                                <a href="#"
+                                <a href="{{ route('invitations.index') }}"
                                     class="group rounded-3xl bg-slate-50 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10 p-5 hover:shadow-sm transition">
                                     <div class="flex items-center gap-3">
                                         <span
@@ -210,7 +204,7 @@
                                     </div>
                                 </a>
 
-                                <a href="#"
+                                <a href="categories"
                                     class="group rounded-3xl bg-slate-50 dark:bg-white/5 ring-1 ring-slate-200 dark:ring-white/10 p-5 hover:shadow-sm transition">
                                     <div class="flex items-center gap-3">
                                         <span

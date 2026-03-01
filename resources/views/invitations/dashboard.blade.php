@@ -7,6 +7,15 @@
                     ✔ {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="mb-6 rounded-2xl bg-red-500/10 ring-1 ring-red-400/20 p-4 w-1/2 m-auto">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-red-400 m-auto">
+                            {{ session('error') }}
+                        </span>
+                    </div>
+                </div>
+            @endif
 
             <div class="flex items-center justify-between mb-8">
                 <div>
@@ -33,17 +42,7 @@
                         @enderror
                     </div>
 
-                    <div>
-                        <label class="text-sm font-semibold text-slate-700">Role</label>
-                        <select name="role"
-                            class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="member" @selected(old('role') === 'member')>Member</option>
-                            <option value="owner" @selected(old('role') === 'owner')>Owner</option>
-                        </select>
-                        @error('role')
-                            <p class="text-rose-600 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
+
 
                     <div class="md:col-span-3 flex justify-end">
                         <button

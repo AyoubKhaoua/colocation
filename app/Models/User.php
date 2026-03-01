@@ -29,7 +29,7 @@ class User extends Authenticatable
             ->withPivot(['role', 'joined_at', 'left_at'])
             ->withTimestamps();
     }
-    public function aa() {}
+
 
     /**
      * The attributes that should be hidden for serialization.

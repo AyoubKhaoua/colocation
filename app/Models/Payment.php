@@ -25,5 +25,4 @@ class Payment extends Model
     {
         return $this->belongsTo(ColocationUser::class, 'to_colocationUser_id');
     }
-    public function aa() {}
 }

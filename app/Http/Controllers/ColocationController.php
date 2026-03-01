@@ -25,10 +25,8 @@ class ColocationController extends Controller
             'role' => 'owner',
             'joined_at' => now(),
         ]);
-        $id = Auth::id();
-        $user = User::find($id);
-        dd(auth()->user());
 
-        return redirect()->route('user.dashboard');
+
+        return redirect()->route('user.dashboard')->with('success', 'Colocation created successfully 🎉');;
     }
 }

@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
-            Créer une colocation
-        </h2>
-    </x-slot>
+
 
     <div class="mx-auto max-w-2xl px-4 py-10">
         <div class="rounded-3xl bg-white dark:bg-slate-900/60 ring-1 ring-slate-200 dark:ring-white/10 shadow-sm p-8">
@@ -11,7 +7,7 @@
                 Smiha bchi name واضح (مثلا: “Appartement Maarif”).
             </p>
 
-            <form method="POST" action="{{ route('colocations.store') }}" class="mt-6 space-y-5">
+            <form method="POST" action="{{ route('store.colocation') }}" class="mt-6 space-y-5">
                 @csrf
 
                 <div>

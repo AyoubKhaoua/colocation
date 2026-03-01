@@ -11,7 +11,7 @@ class StoreInvitationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreInvitationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => ['required', 'email', 'max:255'],
+
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email'    => 'L\'adresse email n\'est pas valide.',
+
         ];
     }
 }

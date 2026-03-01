@@ -38,7 +38,31 @@ Route::post('/categories/{category}', [CategoryController::class, 'destroy'])->n
 // invitations
 Route::middleware('auth')->group(function () {
     Route::get('/invitations', [InvitationController::class, 'index'])->name('invitations.index');
-    Route::get('/invitations/{colocation}', [InvitationController::class, 'dashboard'])->name('invitations.dashboard');
     Route::post('/invitations/{colocation}', [InvitationController::class, 'store'])->name('invitations.store');
 });
+
+// public invitation handling
+Route::get('/invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+Route::post('/invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
+Route::post('/invitations/{token}/decline', [InvitationController::class, 'decline'])->name('invitations.decline');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 require __DIR__ . '/auth.php';
